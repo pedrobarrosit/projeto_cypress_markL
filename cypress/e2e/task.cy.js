@@ -2,9 +2,7 @@
 
 
 describe('tarefas', () => {
-    beforeEach(() => {
-        cy.visit('http://localhost:8080')
-    })
+    
 
     context('cadastro', () => {
         it('deve cadastra uma nova tarefa', () => {
@@ -30,22 +28,20 @@ describe('tarefas', () => {
         it('campo obrigatório', () => {
 
             cy.createTask()
-            cy.get('input[placeholder="Add a new Task"]').invoke('prop', 'validationMessage')
-                .should((text) => {
-                    expect('This is a required field').to.eq(text)
-                })
+            cy.isRequired('This is a riquired field')
         })
     })
-    context('atualização', () => {
-        it('deve concluir uma tarefa', () => {
-
-            const task = {
-                name: 'fazer compras',
+    context('atualização',()=>{
+        it('deve concluir uma tarefa',()=>{
+            const task ={
+                name:'Pagar contas de consumo',
                 is_done: false
             }
 
             cy.removeTaskByName(task.name)
             cy.postTask(task)
+
+            cy.visit('/')
 
             cy.contains('p', task.name)
                 .parent()
@@ -53,19 +49,20 @@ describe('tarefas', () => {
                 .click()
 
             cy.contains('p', task.name)
-                .should('have.css',  'text-decoration-line', 'line-through')
+                .should('have.css','text-decoration-line', 'line-through')
         })
     })
-    context('exclusão', () => {
-        it('deve remove uma tarefa', () => {
-
-            const task = {
-                name: 'Pagar contas de consumo',
+    context('exclusão',()=>{
+        it('deve remover uma tarefa',()=>{
+            const task ={
+                name:'fazer compras',
                 is_done: false
             }
 
             cy.removeTaskByName(task.name)
             cy.postTask(task)
+
+            cy.visit('/')
 
             cy.contains('p', task.name)
                 .parent()
@@ -76,4 +73,4 @@ describe('tarefas', () => {
                 .should('not.exist')
         })
     })
-}) 
+})

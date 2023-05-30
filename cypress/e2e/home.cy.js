@@ -4,7 +4,7 @@ describe('home', () => {
 
   beforeEach('portal declarado global',()=>{
     cy.viewport(1400,900)
-    cy.visit('http://localhost:8080')
+    cy.visit('/')
   })
   
   it('webapp deve estar online', () => {
